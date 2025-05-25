@@ -1,12 +1,14 @@
-import App from "./App";
-import ErrorPage from "./pages/ErrorPage";
-import Home from "./pages/Home";
-import Articles from "./pages/Articles";
-import CreateArticle from "./pages/CreateArticle";
-import Categories from "./pages/Categories";
-import Users from "./pages/Users";
-import Comments from "./pages/Comments";
+import App from "../App";
+import ErrorPage from "../pages/ErrorPage";
+import Home from "../pages/Home";
+import Articles from "../pages/Articles";
+import CreateArticle from "../pages/CreateArticle";
+import Categories from "../pages/Categories";
+import Users from "../pages/Users";
+import Comments from "../pages/Comments";
 import { Navigate } from "react-router-dom";
+import loadPublishedArticles from "../loaders/loadPublishedArticles";
+import loadUnpublishedArticles from "../loaders/loadUnpublishedArticles";
 
 const routes = [
 	{
@@ -27,10 +29,12 @@ const routes = [
 					{
 						path: "published", 
 						Component: Articles,
+						loader: loadPublishedArticles,
 					},
 					{
 						path: "unpublished", 
 						Component: Articles,
+						loader: loadUnpublishedArticles,
 					},
 				],
 			},
