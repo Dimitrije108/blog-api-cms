@@ -1,4 +1,4 @@
-import App from "../App";
+import Layout from "../layouts/Layout";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import Articles from "../pages/Articles";
@@ -7,13 +7,15 @@ import Categories from "../pages/Categories";
 import Users from "../pages/Users";
 import Comments from "../pages/Comments";
 import { Navigate } from "react-router-dom";
-import loadPublishedArticles from "../loaders/loadPublishedArticles";
-import loadUnpublishedArticles from "../loaders/loadUnpublishedArticles";
+import { 
+	getPublishedArticles, 
+	getUnpublishedArticles 
+} from "../loaders/loaders";
 
 const routes = [
 	{
 		path: "/",
-		Component: App,
+		Component: Layout,
 		ErrorBoundary: ErrorPage,
 		children: [
 			{
@@ -29,18 +31,18 @@ const routes = [
 					{
 						path: "published", 
 						Component: Articles,
-						loader: loadPublishedArticles,
+						loader: getPublishedArticles,
 					},
 					{
 						path: "unpublished", 
 						Component: Articles,
-						loader: loadUnpublishedArticles,
+						loader: getUnpublishedArticles,
+					},
+					{
+						path: "create",
+						Component: CreateArticle
 					},
 				],
-			},
-			{
-				path: "create",
-				Component: CreateArticle
 			},
 			{
 				path: "categories",
