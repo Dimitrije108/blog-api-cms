@@ -1,3 +1,4 @@
+import ProtectedRoute from "../layouts/ProtectedRoute";
 import Layout from "../layouts/Layout";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
@@ -6,57 +7,87 @@ import CreateArticle from "../pages/CreateArticle";
 import Categories from "../pages/Categories";
 import Users from "../pages/Users";
 import Comments from "../pages/Comments";
+import Login from "../pages/Login";
 import { Navigate } from "react-router-dom";
 import { 
 	getPublishedArticles, 
-	getUnpublishedArticles 
+	getUnpublishedArticles,
+	checkUser,
 } from "../loaders/loaders";
+import userLogin from "../actions/userLogin";
+
+// have a function that checks user auth
+// call it as one of the react router loaders?
+
+// loaders cant run 2 loaders so make a higher order func 
+// that takes in a loader and depending on auth returns it or 
+// returns the login page
+
+// if auth is good access the page
+// otherwise reroute the user to the login page
+
+// ProtectedRoute component is for loading UI
+// authLoader is for stopping the API request from executing from a loader
+// since loader fetches before the component is rendered.
 
 const routes = [
 	{
-		path: "/",
-		Component: Layout,
+		Component: ProtectedRoute,
 		ErrorBoundary: ErrorPage,
 		children: [
 			{
-				index: true,
-				Component: Home
-			},
-			{
-				path: "articles", 
+				path: "/",
+				Component: Layout,
+				ErrorBoundary: ErrorPage,
 				children: [
 					{
-						index: true, element: <Navigate to='published' replace />
+						index: true,
+						Component: Home
 					},
 					{
-						path: "published", 
-						Component: Articles,
-						loader: getPublishedArticles,
+						path: "articles", 
+						children: [
+							{
+								index: true, element: <Navigate to='published' replace />
+							},
+							{
+								path: "published", 
+								Component: Articles,
+								loader: getPublishedArticles,
+							},
+							{
+								path: "unpublished", 
+								Component: Articles,
+								loader: getUnpublishedArticles,
+							},
+							{
+								path: "create",
+								Component: CreateArticle
+							},
+						],
 					},
 					{
-						path: "unpublished", 
-						Component: Articles,
-						loader: getUnpublishedArticles,
+						path: "categories",
+						Component: Categories
 					},
 					{
-						path: "create",
-						Component: CreateArticle
+						path: "users",
+						Component: Users
 					},
-				],
-			},
-			{
-				path: "categories",
-				Component: Categories
-			},
-			{
-				path: "users",
-				Component: Users
-			},
-			{
-				path: "comments",
-				Component: Comments
+					{
+						path: "comments",
+						Component: Comments
+					},
+				]
 			},
 		]
+	},
+	{
+		path: '/login',
+		Component: Login,
+		loader: checkUser,
+		action: userLogin,
+		ErrorBoundary: ErrorPage,
 	},
 ];
 
