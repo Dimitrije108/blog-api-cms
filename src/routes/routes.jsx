@@ -1,18 +1,19 @@
+import { Navigate } from "react-router-dom";
 import ProtectedRoute from "../layouts/ProtectedRoute";
 import Layout from "../layouts/Layout";
 import ErrorPage from "../pages/ErrorPage";
-import Home from "../pages/Home";
+import Dashboard from "../pages/Dashboard";
 import Articles from "../pages/Articles";
 import CreateArticle from "../pages/CreateArticle";
 import Categories from "../pages/Categories";
 import Users from "../pages/Users";
 import Comments from "../pages/Comments";
 import Login from "../pages/Login";
-import { Navigate } from "react-router-dom";
 import { 
-	getPublishedArticles, 
-	getUnpublishedArticles,
-	checkUser,
+	authLoader,
+	publishedArticlesLoader, 
+	unpublishedArticlesLoader,
+	checkUserLoader,
 } from "../loaders/loaders";
 import userLogin from "../actions/userLogin";
 
@@ -42,7 +43,7 @@ const routes = [
 				children: [
 					{
 						index: true,
-						Component: Home
+						Component: Dashboard
 					},
 					{
 						path: "articles", 
@@ -53,12 +54,12 @@ const routes = [
 							{
 								path: "published", 
 								Component: Articles,
-								loader: getPublishedArticles,
+								loader: authLoader(publishedArticlesLoader),
 							},
 							{
 								path: "unpublished", 
 								Component: Articles,
-								loader: getUnpublishedArticles,
+								loader: authLoader(unpublishedArticlesLoader),
 							},
 							{
 								path: "create",
@@ -85,7 +86,7 @@ const routes = [
 	{
 		path: '/login',
 		Component: Login,
-		loader: checkUser,
+		loader: checkUserLoader,
 		action: userLogin,
 		ErrorBoundary: ErrorPage,
 	},

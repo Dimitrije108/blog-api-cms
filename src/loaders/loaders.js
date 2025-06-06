@@ -1,9 +1,11 @@
-import getPublishedArticles from "./getPublishedArticles";
-import getUnpublishedArticles from "./getUnpublishedArticles";
-import checkUser from "./checkUser";
+import publishedArticlesLoader from "./publishedArticlesLoader";
+import unpublishedArticlesLoader from "./unpublishedArticlesLoader";
+import checkUserLoader from "./checkUserLoader";
+import authLoader from "./authLoader";
 
 export { 
-	getPublishedArticles, 
-	getUnpublishedArticles,
-	checkUser,
+	authLoader,
+	publishedArticlesLoader, 
+	unpublishedArticlesLoader,
+	checkUserLoader,
 };
