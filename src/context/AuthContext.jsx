@@ -2,7 +2,10 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext({
-
+	user: null,
+	token: null, 
+  login: () => {},
+	logout: () => {},
 });
 
 const AuthProvider = ({ children }) => {
@@ -41,8 +44,18 @@ const AuthProvider = ({ children }) => {
 		};
 	};
 
+	const logout = () => {
+		localStorage.removeItem("accessToken");
+		localStorage.removeItem("refreshToken");
+		setToken(null);
+		setUser(null);
+	};
+
 	const value = {
-		login
+		user,
+		token,
+		login,
+		logout
 	};
 
 	return (
