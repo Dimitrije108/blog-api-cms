@@ -1,8 +1,7 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import axios from "axios";
-const API_URL = import.meta.env.VITE_API_URL;
+import api from "../axiosConfig";
 import { jwtDecode } from "jwt-decode";
-import refreshAccessToken from "../utils/refreshAccessToken";
+import checkAuth from "../utils/checkAuth";
 
 const AuthContext = createContext({
 	user: null,
@@ -22,7 +21,7 @@ const AuthProvider = ({ children }) => {
 	// Request user login
   const login = async (email, password) => {
 		try {
-			const response = await axios.post(`${API_URL}/auth/login`, {
+			const response = await api.post("/auth/login", {
 				email,
 				password,
 			});
@@ -64,56 +63,15 @@ const AuthProvider = ({ children }) => {
 	};
 	// Check if user is authenticated
 	const authUser = async () => {
-		const accessToken = localStorage.getItem('accessToken');
-		const refreshToken = localStorage.getItem('refreshToken');
-		// If access or refresh tokens don't exist return false
-		if (!accessToken || !refreshToken) {
-			logout();
-			return false;
-		};
-		// Decode tokens
-		let decodedAccessToken;
-		let decodedRefreshToken;
-		try {
-			decodedAccessToken = jwtDecode(accessToken);
-			decodedRefreshToken = jwtDecode(refreshToken);
-		} catch (error) {
-			// Remove malformed tokens if decoding fails
-			logout();
-			return false;
-		};
-	
-		const timeNow = Date.now();
-		// Check if access and refresh tokens are valid
-		const isValidAccessToken = decodedAccessToken.exp * 1000 > timeNow;
-		const isValidRefreshToken = decodedRefreshToken.exp * 1000 > timeNow;
-		// If access token is valid set state and return
-		if (isValidAccessToken) {
+		const userAuth = checkAuth();
+		if (userAuth) {
+			const accessToken = localStorage.getItem("accessToken");
 			setToken(accessToken);
-			setUser(decodedAccessToken);
-			return true;
-		};
-		// If refresh token isn't valid remove expired tokens and return false
-		if (!isValidRefreshToken) {
-			logout();
-			return false;
-		};
-		// Get a new access token
-		const refresh = await refreshAccessToken();
-		// Check if refresh token was successful or not
-		if (!refresh) {
-			logout();
-			return false;
-		};
-		// Decode and set user and token state
-		try {
-			localStorage.setItem("accessToken", refresh.accessToken);
-    	localStorage.setItem("refreshToken", refresh.refreshToken);
-			setToken(refresh.accessToken);
-			const user = jwtDecode(refresh.accessToken);
+			// Decoding was already checked inside checkAuth() so it's not needed here
+			const user = jwtDecode(accessToken);
 			setUser(user);
 			return true;
-		} catch (error) {
+		} else {
 			logout();
 			return false;
 		};
