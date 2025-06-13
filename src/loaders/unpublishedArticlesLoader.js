@@ -1,9 +1,8 @@
-import axios from 'axios';
-const API_URL = import.meta.env.VITE_API_URL;
+import api from "../axiosConfig";
 
-export default async function getUnpublishedArticles() {
+export default async function unpublishedArticlesLoader() {
 	try {
-		const res = await axios.get(`${API_URL}/articles?published=false`);
+		const res = await api.get("/articles?published=false");
 		return { data: res.data, error: null }
 	} catch(error) {
 		return { data: null, error };

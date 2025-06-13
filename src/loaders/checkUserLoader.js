@@ -1,10 +1,13 @@
 import { redirect } from "react-router-dom";
+import checkAuth from "../utils/checkAuth";
 // Login page should not display to logged in users
 // Check if user is logged in
-export default function checkUserLoader() {
-  const isAuthenticated = !!localStorage.getItem("accessToken");
+export default async function checkUserLoader() {
+  const isAuth = await checkAuth();
   
-  if (isAuthenticated) {
+  if (isAuth) {
     return redirect("/");
   };
+  
+  return;
 };

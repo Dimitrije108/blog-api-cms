@@ -1,11 +1,13 @@
+import authLoader from "./authLoader";
+import checkUserLoader from "./checkUserLoader";
 import publishedArticlesLoader from "./publishedArticlesLoader";
 import unpublishedArticlesLoader from "./unpublishedArticlesLoader";
-import checkUserLoader from "./checkUserLoader";
-import authLoader from "./authLoader";
+import categoriesLoader from "./categoriesLoader";
 
 export { 
 	authLoader,
+	checkUserLoader,
 	publishedArticlesLoader, 
 	unpublishedArticlesLoader,
-	checkUserLoader,
+	categoriesLoader,
 };
