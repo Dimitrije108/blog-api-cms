@@ -14,7 +14,7 @@ export default function ProtectedRoute() {
 			setIsAuth(userAuth);
 		};
 		checkAuth();
-	}, [authUser]);
+	}, []);
 	
 	// Authentication in progress
 	if (isAuth === null) {
