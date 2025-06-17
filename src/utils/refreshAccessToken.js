@@ -1,12 +1,12 @@
-import axios from "axios";
-const API_URL = import.meta.env.VITE_API_URL;
+import api from "../axiosConfig";
 
-export default async function refreshAccessToken() {
+export default async function refreshAccessToken(oldRefreshToken) {
 	try {
-		const response = await axios.post(`${API_URL}/refresh`);
+		const response = await api.post("/auth/refresh", { oldRefreshToken });
 		const { accessToken, refreshToken } = response.data;
 		return { accessToken, refreshToken };
 	} catch (error) {
+		console.log(error);
 		return null;
 	};
 };

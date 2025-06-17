@@ -1,8 +1,11 @@
 import refreshAccessToken from "./refreshAccessToken";
+import { jwtDecode } from "jwt-decode";
 // Check if user is authenticated
 // Returns False - when token is missing, malformed, expired or refresh failed
 // Returns True - when token is valid, or has been refreshed succesfully
 export default async function checkAuth() {
+	console.log('Check auth triggered');
+
 	const accessToken = localStorage.getItem('accessToken');
 	const refreshToken = localStorage.getItem('refreshToken');
 	// If access or refresh tokens don't exist return false
@@ -37,7 +40,7 @@ export default async function checkAuth() {
 		return false;
 	};
 	// Get a new access token
-	const refresh = await refreshAccessToken();
+	const refresh = await refreshAccessToken(refreshToken);
 	// Check if refresh was successful or not
 	if (!refresh) {
 		localStorage.removeItem('accessToken');
