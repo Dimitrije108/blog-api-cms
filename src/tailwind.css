@@ -3,3 +3,44 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
+
+@font-face {
+  font-family: 'Oswald-Regular';
+  src: url('./assets/fonts/Oswald-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Oswald-Light';
+  src: url('./assets/fonts/Oswald-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src: url('./assets/fonts/Montserrat-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'Midland-Regular';
+  src: url('./assets/fonts/MidlandluxuryRegular-lgze5.otf');
+}
+
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    font-family: 'Montserrat-Medium', Helvetica, Arial, sans-serif;
+    @apply bg-white text-gray-800;
+  }
+
+  h1 {
+    @apply text-3xl font-bold;
+  }
+
+  input {
+    @apply border border-gray-300;
+  }
+
+  button:hover {
+    @apply cursor-pointer;
+  }
+}
