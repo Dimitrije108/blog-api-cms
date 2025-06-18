@@ -9,27 +9,20 @@ import Categories from "../pages/Categories";
 import Users from "../pages/Users";
 import Comments from "../pages/Comments";
 import Login from "../pages/Login";
+import preFetchAuth from "../utils/preFetchAuth";
 import { 
-	authLoader,
+	checkUserLoader,
 	publishedArticlesLoader, 
 	unpublishedArticlesLoader,
-	checkUserLoader,
+	categoriesLoader,
 } from "../loaders/loaders";
-import userLogin from "../actions/userLogin";
-
-// have a function that checks user auth
-// call it as one of the react router loaders?
-
-// loaders cant run 2 loaders so make a higher order func 
-// that takes in a loader and depending on auth returns it or 
-// returns the login page
-
-// if auth is good access the page
-// otherwise reroute the user to the login page
+import {
+	addCategory,
+} from "../actions/actions";
 
 // ProtectedRoute component is for loading UI
-// authLoader is for stopping the API request from executing from a loader
-// since loader fetches before the component is rendered.
+// authLoader stops loaders from executing if auth fails
+// because loader fetches before the component is rendered
 
 const routes = [
 	{
@@ -43,7 +36,7 @@ const routes = [
 				children: [
 					{
 						index: true,
-						Component: Dashboard
+						Component: Dashboard,
 					},
 					{
 						path: "articles", 
@@ -54,12 +47,12 @@ const routes = [
 							{
 								path: "published", 
 								Component: Articles,
-								loader: authLoader(publishedArticlesLoader),
+								loader: preFetchAuth(publishedArticlesLoader),
 							},
 							{
 								path: "unpublished", 
 								Component: Articles,
-								loader: authLoader(unpublishedArticlesLoader),
+								loader: preFetchAuth(unpublishedArticlesLoader),
 							},
 							{
 								path: "create",
@@ -69,15 +62,17 @@ const routes = [
 					},
 					{
 						path: "categories",
-						Component: Categories
+						Component: Categories,
+						loader: preFetchAuth(categoriesLoader),
+						action: preFetchAuth(addCategory),
 					},
 					{
 						path: "users",
-						Component: Users
+						Component: Users,
 					},
 					{
 						path: "comments",
-						Component: Comments
+						Component: Comments,
 					},
 				]
 			},
@@ -87,7 +82,6 @@ const routes = [
 		path: '/login',
 		Component: Login,
 		loader: checkUserLoader,
-		action: userLogin,
 		ErrorBoundary: ErrorPage,
 	},
 ];
