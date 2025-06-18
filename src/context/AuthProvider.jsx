@@ -14,6 +14,9 @@ const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [token, setToken] = useState(null);
 
+	console.log(`Token: ${token}`);
+	console.log(`localStorage: ${localStorage.getItem("accessToken")}`);
+
 	useEffect(() => {
 		authUser();
 	}, []);
@@ -21,10 +24,10 @@ const AuthProvider = ({ children }) => {
 	// Request user login
   const login = async (email, password) => {
 		try {
-			const response = await api.post("/auth/login", {
-				email,
-				password,
-			});
+			const response = await api.post(
+				"/auth/login", 
+				{ email, password }
+			);
 
 			const { accessToken, refreshToken } = response.data;
 			// Store access and refresh tokens in localStorage
@@ -63,7 +66,7 @@ const AuthProvider = ({ children }) => {
 	};
 	// Check if user is authenticated
 	const authUser = async () => {
-		const userAuth = checkAuth();
+		const userAuth = await checkAuth();
 		if (userAuth) {
 			const accessToken = localStorage.getItem("accessToken");
 			setToken(accessToken);
@@ -88,7 +91,8 @@ const AuthProvider = ({ children }) => {
 	return (
 		<AuthContext.Provider value={value}>
 			{children}
-		</AuthContext.Provider>);
+		</AuthContext.Provider>
+	);
 };
 
 export default AuthProvider;
