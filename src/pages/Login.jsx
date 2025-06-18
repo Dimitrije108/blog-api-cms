@@ -1,25 +1,63 @@
-import { Form, useActionData } from "react-router-dom";
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthProvider";
+// Login controlled component utilizing global auth context
 export default function Login() {
-  const errors = useActionData();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const userLogin = await login(email, password);
+    setEmail("");
+    setPassword("");
+
+    if (!userLogin.success) {
+      setError(userLogin.error);
+    } else {
+      setError(null);
+      navigate("/");
+    };
+  };
 
   return (
     <>
       <h1>Login</h1>
-      {errors?.length > 0 && errors.map((error, index) => {
-        return <li key={index} className="text-red-400">{error}</li>;
-      })}
-      <Form method="post">
+      <form onSubmit={handleLogin}>
         <div>
           <label htmlFor="email">Email</label>
-          <input type="email" name="email" id="email" required />
+          <input 
+            type="email" 
+            name="email" 
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
+          />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" id="password" required />
+          <input 
+            type="password" 
+            name="password" 
+            id="password" 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+          />
         </div>
+        {error && 
+          <ul>
+            {error.map((error, index) => {
+              return <li key={index} className="text-red-400">{error}</li>;
+            })}
+          </ul>
+        }
         <button type="submit">Login</button>
-      </Form>
+      </form>
     </>
   )
 };
