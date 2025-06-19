@@ -1,5 +1,5 @@
-import addCategory from "./addCategory";
+import handleCategory from "./handleCategory";
 
 export {
-	addCategory,
+	handleCategory,
 };

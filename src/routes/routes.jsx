@@ -17,7 +17,7 @@ import {
 	categoriesLoader,
 } from "../loaders/loaders";
 import {
-	addCategory,
+	handleCategory,
 } from "../actions/actions";
 
 // ProtectedRoute component is for loading UI
@@ -64,7 +64,7 @@ const routes = [
 						path: "categories",
 						Component: Categories,
 						loader: preFetchAuth(categoriesLoader),
-						action: preFetchAuth(addCategory),
+						action: preFetchAuth(handleCategory),
 					},
 					{
 						path: "users",
