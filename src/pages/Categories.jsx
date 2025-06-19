@@ -84,7 +84,9 @@ export default function Categories() {
                   ))}
                 </ul> 
               }
-              <button type="submit">Add</button>
+              <button type="submit">
+                {editingCategory ? "Edit" : "Add"}
+              </button>
             </Form>
             <button onClick={() => handleModalClose()}>
               Close
