@@ -11,20 +11,41 @@ import ErrorMessage from "../components/ErrorMessage";
 export default function Categories() {
   const [showModal, setShowModal] = useState(false);
   const [categoryValue, setCategoryValue] = useState("");
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [actionError, setActionError] = useState(false);
   const { data, error } = useLoaderData();
   const action = useActionData();
 
   useEffect(() => {
+    // Clear state and input on successful action
     if (action?.data) {
-      // Timeout is for the form handling to finish before the setShowModal is 
+      // Timeout is so that form handling finishes before the setShowModal is 
       // triggered so that the warning for a missing form doesn't show
       setTimeout(() => {
         setShowModal(false);
         setCategoryValue("");
+        setEditingCategory(null);
         // add toast here later
-      }, 50);
+      }, 100);
+    };
+    // Handle action error with state so it could be cleared when modal closes
+    if (action?.error) {
+      setActionError(true);
     };
   }, [action]);
+
+  const handleEdit = (category) => {
+    setEditingCategory(category);
+    setShowModal(true);
+    setCategoryValue(category.name);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    setCategoryValue("");
+    setEditingCategory(null);
+    setActionError(false);
+  };
 
   return (
     <>
@@ -36,30 +57,39 @@ export default function Categories() {
       {/* Display modal for category form */}
       {showModal && createPortal(
         <div className="fixed top-0 w-screen h-screen flex items-center justify-center bg-gray-500/50">
-          <Form method="post" className="pt-6 pb-6 pl-8 pr-8 bg-amber-50 border-r-gray-300 rounded-lg shadow-xl">
-            <label htmlFor="name">Category</label>
-            <input 
-              type="text" 
-              name="name" 
-              id="name" 
-              value={categoryValue} 
-              onChange={(e) => setCategoryValue(e.target.value)} 
-            />
-            <button onClick={() => setShowModal(false)}>
+          <div className="pt-6 pb-6 pl-8 pr-8 bg-amber-50 border-r-gray-300 rounded-lg shadow-xl">
+            <Form method="post">
+              {editingCategory && 
+                <input type="hidden" name="id" value={editingCategory.id} />
+              }
+              <label htmlFor="name">Category</label>
+              <input 
+                type="text" 
+                name="name" 
+                id="name" 
+                minLength={1}
+                maxLength={50}
+                value={categoryValue} 
+                onChange={(e) => setCategoryValue(e.target.value)}
+                required
+              />
+              {actionError && 
+                <ul>
+                  {action.error.map((err, index) => (
+                    <li key={index} className="flex text-sm text-red-400">
+                      {err.field && <p>{err.field.charAt(0).toUpperCase() + err.field.slice(1)}:</p>}
+                      {err.message && <span className="ml-1">{err.message}</span>}
+                      {!err.field && !err.message && <p>{err}</p>}
+                    </li>
+                  ))}
+                </ul> 
+              }
+              <button type="submit">Add</button>
+            </Form>
+            <button onClick={() => handleModalClose()}>
               Close
             </button>
-            {action?.error && 
-              <ul>
-                {action.error.map((err, index) => (
-                  <li key={index} className="flex">
-                    <p>{err.field}</p>
-                    <span>{err.message}</span>
-                  </li>
-                ))}
-              </ul> 
-            }
-            <button type="submit">Add</button>
-          </Form>
+          </div>
         </div>,
         document.body
       )}
@@ -69,7 +99,15 @@ export default function Categories() {
       {data && 
         <ul>
           {data.map((category) => {
-            return <li key={category.id}>{category.name}</li>
+            return (
+              <li key={category.id}>
+                <span>{category.name}</span>
+                <button onClick={() => handleEdit(category)}>
+                  Edit
+                </button>
+                <button>Delete</button>
+              </li>
+            )
           })}
         </ul>
       }
