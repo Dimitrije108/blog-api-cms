@@ -4,8 +4,6 @@ import Layout from "../layouts/Layout";
 import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../pages/Dashboard";
 import Articles from "../pages/Articles";
-import CreateArticle from "../pages/CreateArticle";
-
 import Users from "../pages/Users";
 import Comments from "../pages/Comments";
 import Login from "../pages/Login";
@@ -15,6 +13,8 @@ import {
 	publishedArticlesLoader, 
 	unpublishedArticlesLoader,
 } from "../loaders/loaders";
+
+import CreateArticle from "../features/createArticle/CreateArticle";
 
 import Categories from "../features/categories/Categories";
 import categoriesLoader from "../features/categories/loader";

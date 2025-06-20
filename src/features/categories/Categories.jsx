@@ -4,7 +4,7 @@ import { useLoaderData, Form, useActionData } from "react-router-dom";
 import ErrorMessage from "../../components/ErrorMessage";
 
 // TODO:
-// 1. Refactor into feature based setup
+// 1. Add styling
 // 2. Refactor to be more modular - less coupled
 // 3. Add toast for succesfuly added category with a timer:
 //  check if action has action.data property
@@ -121,7 +121,7 @@ export default function Categories() {
                 <Form method="delete">
                   <input type="hidden" name="action" value="delete" />
                   <input type="hidden" name="id" value={category.id} />
-                  <button>
+                  <button type="submit">
                     Delete
                   </button>
                 </Form>
