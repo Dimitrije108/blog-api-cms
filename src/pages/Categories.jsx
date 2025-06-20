@@ -118,7 +118,7 @@ export default function Categories() {
                   Edit
                 </button>
                 {/* Handle category deletion via Form action */}
-                <Form>
+                <Form method="delete">
                   <input type="hidden" name="action" value="delete" />
                   <input type="hidden" name="id" value={category.id} />
                   <button>
