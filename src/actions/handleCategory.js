@@ -18,10 +18,11 @@ export default async function handleCategory({ request }) {
   // Get form data
   const formData = await request.formData();
   const name = formData.get("name");
+  const action = formData.get("action");
   const id = formData.get("id");
 
-  // Id being passed means the category is being updated
-  if (id) {
+  // Action input field tells what the HTTP request should be
+  if (action === "edit") {
     try {
       const response = await api.put(
         `/categories/${id}`, 
@@ -32,17 +33,29 @@ export default async function handleCategory({ request }) {
     } catch (error) {
       return handleError(error);
     };
-  } else {
-    // Create new category instance
+  };
+  
+  if (action === "delete") {
     try {
-      const response = await api.post(
-        '/categories', 
-        { name }
+      const response = await api.delete(
+        `/categories/${id}`
       );
       // Return success message
       return { data: response.data };
     } catch (error) {
       return handleError(error);
     };
+  };
+  
+  // Otherwise create new category instance
+  try {
+    const response = await api.post(
+      '/categories', 
+      { name }
+    );
+    // Return success message
+    return { data: response.data };
+  } catch (error) {
+    return handleError(error);
   };
 };
