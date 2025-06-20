@@ -4,7 +4,9 @@ import { useLoaderData, Form, useActionData } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 
 // TODO:
-// Add toast for succesfuly added category with a timer:
+// 1. Refactor into feature based setup
+// 2. Refactor to be more modular - less coupled
+// 3. Add toast for succesfuly added category with a timer:
 //  check if action has action.data property
 //  in that case action could return both data and error
 
@@ -59,8 +61,12 @@ export default function Categories() {
         <div className="fixed top-0 w-screen h-screen flex items-center justify-center bg-gray-500/50">
           <div className="pt-6 pb-6 pl-8 pr-8 bg-amber-50 border-r-gray-300 rounded-lg shadow-xl">
             <Form method="post">
+              {/* Submit an id via hidden field for edit actions */}
               {editingCategory && 
-                <input type="hidden" name="id" value={editingCategory.id} />
+                <>
+                  <input type="hidden" name="action" value="edit" />
+                  <input type="hidden" name="id" value={editingCategory.id} />
+                </>
               }
               <label htmlFor="name">Category</label>
               <input 
@@ -73,6 +79,7 @@ export default function Categories() {
                 onChange={(e) => setCategoryValue(e.target.value)}
                 required
               />
+              {/* Display a validation or conflict error */}
               {actionError && 
                 <ul>
                   {action.error.map((err, index) => (
@@ -107,7 +114,14 @@ export default function Categories() {
                 <button onClick={() => handleEdit(category)}>
                   Edit
                 </button>
-                <button>Delete</button>
+                {/* Handle category deletion via Form action */}
+                <Form>
+                  <input type="hidden" name="action" value="delete" />
+                  <input type="hidden" name="id" value={category.id} />
+                  <button>
+                    Delete
+                  </button>
+                </Form>
               </li>
             )
           })}
