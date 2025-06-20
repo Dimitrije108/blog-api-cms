@@ -47,15 +47,17 @@ export default async function handleCategory({ request }) {
     };
   };
   
-  // Otherwise create new category instance
-  try {
-    const response = await api.post(
-      '/categories', 
-      { name }
-    );
-    // Return success message
-    return { data: response.data };
-  } catch (error) {
-    return handleError(error);
+  // Create new category instance
+  if (action === "create") {
+    try {
+      const response = await api.post(
+        '/categories', 
+        { name }
+      );
+      // Return success message
+      return { data: response.data };
+    } catch (error) {
+      return handleError(error);
+    };
   };
 };

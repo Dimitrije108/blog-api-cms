@@ -68,6 +68,9 @@ export default function Categories() {
                   <input type="hidden" name="id" value={editingCategory.id} />
                 </>
               }
+              {!editingCategory && 
+                <input type="hidden" name="action" value="create" />
+              }
               <label htmlFor="name">Category</label>
               <input 
                 type="text" 
