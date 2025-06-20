@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useLoaderData, Form, useActionData } from "react-router-dom";
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessage from "../../components/ErrorMessage";
 
 // TODO:
 // 1. Refactor into feature based setup

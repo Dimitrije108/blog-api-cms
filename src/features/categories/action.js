@@ -1,4 +1,4 @@
-import api from "../axiosConfig";
+import api from "../../axiosConfig";
 
 const handleError = (error) => {
   const status = error.response?.status;
@@ -14,7 +14,7 @@ const handleError = (error) => {
   throw error;
 };
 
-export default async function handleCategory({ request }) {
+export default async function categoriesAction({ request }) {
   // Get form data
   const formData = await request.formData();
   const name = formData.get("name");
