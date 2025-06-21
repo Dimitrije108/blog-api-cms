@@ -4,17 +4,19 @@ import { useLoaderData, Form, useActionData } from "react-router-dom";
 import ErrorMessage from "../../components/ErrorMessage";
 
 // TODO:
-// 1. Add styling
-// 2. Refactor to be more modular - less coupled
-// 3. Add toast for succesfuly added category with a timer:
+// - Add styling
+// - Refactor to be more modular - less coupled
+// - Add toast for succesfuly added category with a timer:
 //  check if action has action.data property
 //  in that case action could return both data and error
+// - rework validation errors to be objects with input field property values
+// so that an error can be displayed under each field
 
 export default function Categories() {
   const [showModal, setShowModal] = useState(false);
   const [categoryValue, setCategoryValue] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
-  const [actionError, setActionError] = useState(false);
+  const [actionError, setActionError] = useState(null);
   const { data, error } = useLoaderData();
   const action = useActionData();
 
@@ -32,7 +34,7 @@ export default function Categories() {
     };
     // Handle action error with state so it could be cleared when modal closes
     if (action?.error) {
-      setActionError(true);
+      setActionError(action.error);
     };
   }, [action]);
 
@@ -46,7 +48,7 @@ export default function Categories() {
     setShowModal(false);
     setCategoryValue("");
     setEditingCategory(null);
-    setActionError(false);
+    setActionError(null);
   };
 
   return (
@@ -85,7 +87,7 @@ export default function Categories() {
               {/* Display a validation or conflict error */}
               {actionError && 
                 <ul>
-                  {action.error.map((err, index) => (
+                  {actionError.map((err, index) => (
                     <li key={index} className="flex text-sm text-red-400">
                       {err.field && <p>{err.field.charAt(0).toUpperCase() + err.field.slice(1)}:</p>}
                       {err.message && <span className="ml-1">{err.message}</span>}
