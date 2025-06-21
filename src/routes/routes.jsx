@@ -15,6 +15,7 @@ import {
 } from "../loaders/loaders";
 
 import CreateArticle from "../features/createArticle/CreateArticle";
+import createArticleAction from "../features/createArticle/action";
 
 import Categories from "../features/categories/Categories";
 import categoriesLoader from "../features/categories/loader";
@@ -56,7 +57,9 @@ const routes = [
 							},
 							{
 								path: "create",
-								Component: CreateArticle
+								Component: CreateArticle,
+								loader: preFetchAuth(categoriesLoader),
+								action: preFetchAuth(createArticleAction),
 							},
 						],
 					},
