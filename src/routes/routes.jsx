@@ -3,20 +3,19 @@ import ProtectedRoute from "../layouts/ProtectedRoute";
 import Layout from "../layouts/Layout";
 import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../pages/Dashboard";
-import Articles from "../pages/Articles";
 import Users from "../pages/Users";
 import Comments from "../pages/Comments";
 import Login from "../pages/Login";
 import preFetchAuth from "../utils/preFetchAuth";
-import { 
-	checkUserLoader,
-	publishedArticlesLoader, 
-	unpublishedArticlesLoader,
-} from "../loaders/loaders";
-
+import { checkUserLoader } from "../loaders/loaders";
+// Articles feature
+import Articles from "../features/articles/Articles";
+import publishedArticlesLoader from "../features/articles/publishedArticlesLoader";
+import unpublishedArticlesLoader from "../features/articles/unpublishedArticlesLoader";
+// Create article feature
 import CreateArticle from "../features/createArticle/CreateArticle";
 import createArticleAction from "../features/createArticle/action";
-
+// Categories feature
 import Categories from "../features/categories/Categories";
 import categoriesLoader from "../features/categories/loader";
 import categororiesAction from "../features/categories/action";
