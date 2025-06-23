@@ -10,8 +10,7 @@ import preFetchAuth from "../utils/preFetchAuth";
 import { checkUserLoader } from "../loaders/loaders";
 // Articles feature
 import Articles from "../features/articles/Articles";
-import publishedArticlesLoader from "../features/articles/publishedArticlesLoader";
-import unpublishedArticlesLoader from "../features/articles/unpublishedArticlesLoader";
+import articlesLoader from "../features/articles/loader";
 // Create article feature
 import CreateArticle from "../features/createArticle/CreateArticle";
 import createArticleAction from "../features/createArticle/action";
@@ -40,27 +39,14 @@ const routes = [
 					},
 					{
 						path: "articles", 
-						children: [
-							{
-								index: true, element: <Navigate to='published' replace />
-							},
-							{
-								path: "published", 
-								Component: Articles,
-								loader: preFetchAuth(publishedArticlesLoader),
-							},
-							{
-								path: "unpublished", 
-								Component: Articles,
-								loader: preFetchAuth(unpublishedArticlesLoader),
-							},
-							{
-								path: "create",
-								Component: CreateArticle,
-								loader: preFetchAuth(categoriesLoader),
-								action: preFetchAuth(createArticleAction),
-							},
-						],
+						Component: Articles,
+						loader: preFetchAuth(articlesLoader),
+					},
+					{
+						path: "articles/create",
+						Component: CreateArticle, 
+						loader: preFetchAuth(categoriesLoader),
+						action: preFetchAuth(createArticleAction),
 					},
 					{
 						path: "categories",
