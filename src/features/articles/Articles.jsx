@@ -7,16 +7,23 @@ import api from "../../axiosConfig";
 // - Button functionality: 
 //   - eye icon button to view the article
 //   - pen icon button to edit the article
-//   - toggle type button to toggle publish/unpublish
 // - Make the publish error UX friendly - shows up under the card
 
 export default function Articles() {
   const { data, error } = useLoaderData();
+  const [filter, setFilter] = useState("all");
   const [publishError, setPublishError] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const revalidator = useRevalidator();
   const isPublished = location.pathname.includes('/published');
+  // Filter articles based on current filter state - all, published, unpublished
+  const filteredArticles = data.filter((article) => {
+    if (filter === "all") {
+      return true;
+    };
+    return filter === "published" ? article.published : !article.published;
+  });
 
   // Change article publish status and refresh articles loader
   const handlePublishToggle = async (articleId, published) => {
@@ -31,11 +38,19 @@ export default function Articles() {
   return (
     <>
       <h1>{isPublished ? "Published" : "Unpublished"} articles</h1>
-      {/* Switch between published and unpublished articles */}
-      <button onClick={() => navigate(`/articles/${!isPublished ? "published" : "unpublished"}`)}>{!isPublished ? "Published" : "Unpublished"}</button>
+      {/* Switch between all, published and unpublished articles */}
+      <button onClick={() => setFilter("all")}>
+        All
+      </button>
+      <button onClick={() => setFilter("published")}>
+        Published
+      </button>
+      <button onClick={() => setFilter("unpublished")}>
+        Unpublished
+      </button>
       {error && <ErrorMessage error={error} />}
       {publishError && <ErrorMessage error={publishError} />}
-      {data && data.map((article) => (
+      {filteredArticles && filteredArticles.map((article) => (
         <article key={article.id}>
           <h2>{article.title}</h2>
           <p>Category: {article.category.name}</p>
