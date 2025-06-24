@@ -8,11 +8,13 @@ import api from "../../axiosConfig";
 //   - eye icon button to view the article
 //   - pen icon button to edit the article
 // - Make the publish error UX friendly - shows up under the card
+// - Create a custom delete confirmation modal
 
 export default function Articles() {
   const { data, error } = useLoaderData();
   const [filter, setFilter] = useState("all");
   const [publishError, setPublishError] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const revalidator = useRevalidator();
@@ -26,12 +28,27 @@ export default function Articles() {
   });
 
   // Change article publish status and refresh articles loader
-  const handlePublishToggle = async (articleId, published) => {
+  const handlePublish = async (articleId, published) => {
     try {
       await api.patch(`/articles/${articleId}`, { publish: !published });
       revalidator.revalidate();
     } catch(error) {
       setPublishError(error);
+    };
+  };
+
+  // Delete article and refresh articles loader
+  const handleDelete = async (articleId) => {
+    // Confirm popup for article deletion
+    const confirm = window.confirm("Are you sure you want to delete this article?");
+
+    if (confirm) {
+      try {
+        await api.delete(`/articles/${articleId}`);
+        revalidator.revalidate();
+      } catch(error) {
+        setDeleteError(error);
+      };
     };
   };
 
@@ -50,6 +67,7 @@ export default function Articles() {
       </button>
       {error && <ErrorMessage error={error} />}
       {publishError && <ErrorMessage error={publishError} />}
+      {deleteError && <ErrorMessage error={deleteError} />}
       {filteredArticles && filteredArticles.map((article) => (
         <article key={article.id}>
           <h2>{article.title}</h2>
@@ -63,8 +81,11 @@ export default function Articles() {
           <button onClick={() => navigate(`/articles/${article.id}/edit`)}>
             Edit
           </button>
-          <button onClick={() => handlePublishToggle(article.id, article.published)}>
+          <button onClick={() => handlePublish(article.id, article.published)}>
             Publish/Unpublish
+          </button>
+          <button onClick={() => handleDelete(article.id)}>
+            Delete
           </button>
         </article>
       ))}
