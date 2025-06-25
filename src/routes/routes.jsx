@@ -10,7 +10,10 @@ import preFetchAuth from "../utils/preFetchAuth";
 import { checkUserLoader } from "../loaders/loaders";
 // Articles feature
 import Articles from "../features/articles/Articles";
-import articlesLoader from "../features/articles/loader";
+import articlesLoader from "../features/articles/articlesLoader";
+// Article view feature
+import Article from "../features/articles/Article";
+import articleLoader from "../features/articles/articleLoader";
 // Create article feature
 import CreateArticle from "../features/createArticle/CreateArticle";
 import createArticleAction from "../features/createArticle/action";
@@ -41,6 +44,11 @@ const routes = [
 						path: "articles", 
 						Component: Articles,
 						loader: preFetchAuth(articlesLoader),
+					},
+					{
+						path: "articles/:articleId", 
+						Component: Article,
+						loader: preFetchAuth(articleLoader),
 					},
 					{
 						path: "articles/create",
