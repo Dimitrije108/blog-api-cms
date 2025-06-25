@@ -5,42 +5,77 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @font-face {
-  font-family: 'Oswald-Regular';
-  src: url('./assets/fonts/Oswald-Regular.ttf');
+  font-family: "Montserrat-Medium";
+  src: url("./assets/fonts/Montserrat-Medium.ttf");
 }
 
 @font-face {
-  font-family: 'Oswald-Light';
-  src: url('./assets/fonts/Oswald-Light.ttf');
+  font-family: "Midland-Regular";
+  src: url("./assets/fonts/MidlandluxuryRegular-lgze5.otf");
 }
 
 @font-face {
-  font-family: 'Montserrat-Medium';
-  src: url('./assets/fonts/Montserrat-Medium.ttf');
+  font-family: "Midland-Bold";
+  src: url("./assets/fonts/MidlandluxuryBold-9Yxqy.otf");
 }
 
 @font-face {
-  font-family: 'Midland-Regular';
-  src: url('./assets/fonts/MidlandluxuryRegular-lgze5.otf');
+  font-family: "Oswald-Light";
+  src: url("./assets/fonts/Oswald-Light.ttf");
 }
 
+@font-face {
+  font-family: "Rushford";
+  src: url("./assets/fonts/Rushfordclean-rgz89.otf");
+}
+
+@font-face {
+  font-family: "Aulieny";
+  src: url("./assets/fonts/AulienyRegular-0vBM9.otf");
+}
 
 @layer base {
   html, body, #root {
     height: 100%;
-    font-family: 'Montserrat-Medium', Helvetica, Arial, sans-serif;
+    font-family: "Montserrat-Medium", Helvetica, Arial, sans-serif;
     @apply bg-white text-gray-800;
   }
 
-  h1 {
-    @apply text-3xl font-bold;
+  h1, h2 {
+    @apply text-2xl font-bold;
   }
 
   input {
     @apply border border-gray-300;
   }
 
+  button {
+    @apply pt-1 pb-1 pl-3 pr-3 border border-gray-300 rounded-3xl;
+  }
+
   button:hover {
-    @apply cursor-pointer;
+    @apply cursor-pointer border-gray-400;
+  }
+
+  hr {
+    @apply w-full mt-2 border border-gray-200 my-8;
+  }
+}
+
+@layer components {
+  .tinymce-content {
+    @apply flex flex-col justify-center items-center;
+  }
+
+  .tinymce-content h1 {
+    @apply font-["Midland-Bold"] text-5xl mb-8 mt-8;
+  }
+
+  .tinymce-content h2, h3, h4, h5, h6 {
+    @apply font-["Midland-Regular"] text-4xl mb-8 mt-8;
+  }
+
+  .tinymce-content a {
+    @apply text-blue-500;
   }
 }
