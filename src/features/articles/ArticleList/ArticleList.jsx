@@ -1,7 +1,7 @@
 import { useLoaderData, useLocation, useNavigate, useRevalidator } from "react-router-dom";
 import { useState } from "react";
-import ErrorMessage from "../../components/ErrorMessage";
-import api from "../../axiosConfig";
+import ErrorMessage from "../../../components/ErrorMessage";
+import api from "../../../axiosConfig";
 
 // TODO:
 // - Button functionality: 
@@ -10,7 +10,7 @@ import api from "../../axiosConfig";
 // - Make the publish error UX friendly - shows up under the card
 // - Create a custom delete confirmation modal
 
-export default function Articles() {
+export default function ArticleList() {
   const { data, error } = useLoaderData();
   const [filter, setFilter] = useState("all");
   const [publishError, setPublishError] = useState(null);

@@ -7,6 +7,7 @@ const TINYMCE_API_KEY = import.meta.env.VITE_TINYMCE_API_KEY;
 // - The form might need to be reusable for editing articles
 // - rework validation errors to be objects with input field property values
 // so that an error can be displayed under each field
+// - reset the publish article checkbox after successful submit
 
 export default function CreateArticle() {
   // Retrieve the saved draft if it exists
@@ -17,6 +18,7 @@ export default function CreateArticle() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState(initContent);
   const [category, setCategory] = useState("");
+  const [publish, setPublish] = useState(false);
   const [actionError, setActionError] = useState(null);
   const { data: categoriesData, error: categoriesError } = useLoaderData();
   const action = useActionData();
@@ -27,6 +29,7 @@ export default function CreateArticle() {
       setTitle("");
       setContent("");
       setCategory("");
+      setPublish(false);
       setActionError(null);
     };
     if (action?.error) {
@@ -135,7 +138,13 @@ export default function CreateArticle() {
       </div>
       <div>
         <label htmlFor="publish">Publish article</label>
-        <input type="checkbox" name="published" id="publish" />
+        <input 
+          type="checkbox" 
+          name="published" 
+          id="publish" 
+          checked={publish}
+          onChange={(e) => setPublish(e.target.checked)}
+        />
       </div>
       {actionError && 
         <ul>

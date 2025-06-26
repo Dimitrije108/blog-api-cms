@@ -1,11 +1,11 @@
 import { useLoaderData } from "react-router-dom";
-import ErrorMessage from "../../components/ErrorMessage";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 // TODO:
 // - Format created at date
 // - Position all elements properly
 
-export default function Article() {
+export default function ArticleDetail() {
 	const { data, error } = useLoaderData();
 	const content = { __html: data.content };
 

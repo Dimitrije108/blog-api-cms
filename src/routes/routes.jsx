@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import ProtectedRoute from "../layouts/ProtectedRoute";
 import Layout from "../layouts/Layout";
 import ErrorPage from "../pages/ErrorPage";
@@ -8,15 +7,15 @@ import Comments from "../pages/Comments";
 import Login from "../pages/Login";
 import preFetchAuth from "../utils/preFetchAuth";
 import { checkUserLoader } from "../loaders/loaders";
-// Articles feature
-import Articles from "../features/articles/Articles";
-import articlesLoader from "../features/articles/articlesLoader";
-// Article view feature
-import Article from "../features/articles/Article";
-import articleLoader from "../features/articles/articleLoader";
+// Article list feature
+import ArticleList from "../features/articles/ArticleList/ArticleList";
+import articleListLoader from "../features/articles/ArticleList/loader";
+// Article detail view feature
+import ArticleDetail from "../features/articles/ArticleDetails/ArticleDetail";
+import articleDetailLoader from "../features/articles/ArticleDetails/loader";
 // Create article feature
-import CreateArticle from "../features/createArticle/CreateArticle";
-import createArticleAction from "../features/createArticle/action";
+import CreateArticle from "../features/articles/CreateArticle/CreateArticle";
+import createArticleAction from "../features/articles/CreateArticle/action";
 // Categories feature
 import Categories from "../features/categories/Categories";
 import categoriesLoader from "../features/categories/loader";
@@ -42,13 +41,13 @@ const routes = [
 					},
 					{
 						path: "articles", 
-						Component: Articles,
-						loader: preFetchAuth(articlesLoader),
+						Component: ArticleList,
+						loader: preFetchAuth(articleListLoader),
 					},
 					{
 						path: "articles/:articleId", 
-						Component: Article,
-						loader: preFetchAuth(articleLoader),
+						Component: ArticleDetail,
+						loader: preFetchAuth(articleDetailLoader),
 					},
 					{
 						path: "articles/create",

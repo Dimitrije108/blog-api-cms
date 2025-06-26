@@ -1,6 +1,6 @@
-import api from "../../axiosConfig";
+import api from "../../../axiosConfig";
 
-export default async function articlesLoader() {
+export default async function articleListLoader() {
 	try {
 		const res = await api.get("/articles");
 		return { data: res.data, error: null }

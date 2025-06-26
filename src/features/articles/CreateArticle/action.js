@@ -1,4 +1,4 @@
-import api from "../../axiosConfig";
+import api from "../../../axiosConfig";
 
 const handleError = (error) => {
   const status = error.response?.status;
