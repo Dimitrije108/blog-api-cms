@@ -19,6 +19,7 @@ import createArticleAction from "../features/articles/CreateArticle/createArticl
 // Edit article feature
 import EditArticle from "../features/articles/EditArticle/EditArticle";
 import editArticleLoader from "../features/articles/EditArticle/editArticleLoader";
+import editArticleAction from "../features/articles/EditArticle/editArticleAction";
 // Categories feature
 import Categories from "../features/categories/Categories";
 import categoriesLoader from "../features/categories/categoriesLoader";
@@ -56,6 +57,7 @@ const routes = [
 						path: "articles/:articleId/edit", 
 						Component: EditArticle,
 						loader: preFetchAuth(editArticleLoader),
+						action: preFetchAuth(editArticleAction),
 					},
 					{
 						path: "articles/create",

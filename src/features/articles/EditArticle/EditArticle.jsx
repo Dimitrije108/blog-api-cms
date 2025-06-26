@@ -20,7 +20,7 @@ export default function EditArticle() {
   // Clear draft in local storage and reset state when article is successfuly submitted
   useEffect(() => {
     if (action?.data) {
-      navigate(`/articles${data.article.id}`);
+      navigate(`/articles/${article.data.id}`);
     };
     if (action?.error) {
       setActionError(action.error);
