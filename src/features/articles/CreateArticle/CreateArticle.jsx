@@ -7,7 +7,6 @@ const TINYMCE_API_KEY = import.meta.env.VITE_TINYMCE_API_KEY;
 // - The form might need to be reusable for editing articles
 // - rework validation errors to be objects with input field property values
 // so that an error can be displayed under each field
-// - reset the publish article checkbox after successful submit
 
 export default function CreateArticle() {
   // Retrieve the saved draft if it exists

@@ -4,6 +4,7 @@ import ErrorMessage from "../../../components/ErrorMessage";
 // TODO:
 // - Format created at date
 // - Position all elements properly
+// - Add edit functionality from here as well
 
 export default function ArticleDetail() {
 	const { data, error } = useLoaderData();

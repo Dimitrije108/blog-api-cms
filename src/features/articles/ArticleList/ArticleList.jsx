@@ -4,9 +4,8 @@ import ErrorMessage from "../../../components/ErrorMessage";
 import api from "../../../axiosConfig";
 
 // TODO:
-// - Button functionality: 
-//   - eye icon button to view the article
-//   - pen icon button to edit the article
+// - Add svg icons for view, edit
+// - Add toggle buton for publish
 // - Make the publish error UX friendly - shows up under the card
 // - Create a custom delete confirmation modal
 
