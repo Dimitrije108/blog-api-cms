@@ -16,13 +16,13 @@ export default function ArticleDetail() {
 				<h1 className="self-center">{data.title}</h1>
 				{!data.published && <p className="text-xl text-red-400">Unpublished</p>}
 				<div className="w-full flex justify-between items-end">
-					<p className="mt-2 font-['Aulieny'] text-3xl self-start">By {data.user.username}</p>
+					<p className="mt-2 font-['Aulieny'] text-2xl self-start">By {data.user.username}</p>
 					<div className="flex flex-col text-sm">
 						<span>Category: {data.category.name}</span>
 						<span>Created {data.createdAt}</span>
 					</div>
 				</div>
-				<hr />
+				<hr className="mt-0" />
 				<section dangerouslySetInnerHTML={content}></section>
 			</article>
 		</div>

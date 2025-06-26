@@ -1,6 +1,6 @@
 import api from "../../../axiosConfig";
 
-export default async function articleDetailLoader({ params }) {
+export default async function articleLoader({ params }) {
 	const { articleId } = params;
 
 	try {

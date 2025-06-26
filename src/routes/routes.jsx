@@ -9,13 +9,16 @@ import preFetchAuth from "../utils/preFetchAuth";
 import { checkUserLoader } from "../loaders/loaders";
 // Article list feature
 import ArticleList from "../features/articles/ArticleList/ArticleList";
-import articleListLoader from "../features/articles/ArticleList/loader";
+import articleListLoader from "../features/articles/ArticleList/articleListLoader";
 // Article detail view feature
 import ArticleDetail from "../features/articles/ArticleDetails/ArticleDetail";
-import articleDetailLoader from "../features/articles/ArticleDetails/loader";
+import articleLoader from "../features/articles/ArticleDetails/articleLoader";
 // Create article feature
 import CreateArticle from "../features/articles/CreateArticle/CreateArticle";
-import createArticleAction from "../features/articles/CreateArticle/action";
+import createArticleAction from "../features/articles/CreateArticle/createArticleAction";
+// Edit article feature
+import EditArticle from "../features/articles/EditArticle/EditArticle";
+import editArticleLoader from "../features/articles/EditArticle/editArticleLoader";
 // Categories feature
 import Categories from "../features/categories/Categories";
 import categoriesLoader from "../features/categories/loader";
@@ -47,7 +50,12 @@ const routes = [
 					{
 						path: "articles/:articleId", 
 						Component: ArticleDetail,
-						loader: preFetchAuth(articleDetailLoader),
+						loader: preFetchAuth(articleLoader),
+					},
+					{
+						path: "articles/:articleId/edit", 
+						Component: EditArticle,
+						loader: preFetchAuth(editArticleLoader),
 					},
 					{
 						path: "articles/create",
