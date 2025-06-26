@@ -21,8 +21,8 @@ import EditArticle from "../features/articles/EditArticle/EditArticle";
 import editArticleLoader from "../features/articles/EditArticle/editArticleLoader";
 // Categories feature
 import Categories from "../features/categories/Categories";
-import categoriesLoader from "../features/categories/loader";
-import categororiesAction from "../features/categories/action";
+import categoriesLoader from "../features/categories/categoriesLoader";
+import categororiesAction from "../features/categories/categoriesAction";
 
 // ProtectedRoute component is for loading UI
 // authLoader stops loaders from executing if auth fails
