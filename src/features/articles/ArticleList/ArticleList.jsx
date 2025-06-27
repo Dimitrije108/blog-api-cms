@@ -4,10 +4,13 @@ import ErrorMessage from "../../../components/ErrorMessage";
 import api from "../../../axiosConfig";
 
 // TODO:
+// - Make a reusable Article component
 // - Add svg icons for view, edit
 // - Add toggle buton for publish
 // - Make the publish error UX friendly - shows up under the card
 // - Create a custom delete confirmation modal
+// - For preserving filter status when going back URL query string would be needed
+// and a custom backend query implementation would be needed
 
 export default function ArticleList() {
   const { data, error } = useLoaderData();
