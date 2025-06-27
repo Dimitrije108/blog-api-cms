@@ -67,12 +67,37 @@
     @apply flex flex-col justify-center items-center;
   }
 
-  .tinymce-content h1 {
-    @apply font-["Midland-Bold"] text-5xl mb-8 mt-8;
+  .tinymce-content h1, 
+  .tinymce-content h2,
+  .tinymce-content h3,
+  .tinymce-content h4,
+  .tinymce-content h5,
+  .tinymce-content h6 {
+    @apply font-["Midland-Bold"];
   }
 
-  .tinymce-content h2, h3, h4, h5, h6 {
-    @apply font-["Midland-Regular"] text-4xl mb-8 mt-8;
+  .tinymce-content h1 {
+    @apply text-5xl mb-12 mt-8;
+  }
+
+  .tinymce-content h2 {
+    @apply text-3xl mb-4 mt-8;
+  }
+
+  .tinymce-content h3 {
+    @apply text-2xl mb-4 mt-8;
+  }
+
+  .tinymce-content h4 {
+    @apply text-xl mb-4 mt-8;
+  }
+
+  .tinymce-content h5 {
+    @apply text-lg mb-4 mt-8;
+  }
+
+  .tinymce-content h6 {
+    @apply text-base mb-4 mt-6;
   }
 
   .tinymce-content a {
