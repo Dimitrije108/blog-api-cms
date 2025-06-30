@@ -42,6 +42,12 @@ export default function Categories() {
     setEditingCategory(category);
     setShowModal(true);
     setCategoryValue(category.name);
+    setActionError(null);
+  };
+
+  const handleModalOpen = () => {
+    setShowModal(true);
+    setActionError(null);
   };
 
   const handleModalClose = () => {
@@ -55,9 +61,21 @@ export default function Categories() {
     <>
       <h1>Categories</h1>
       <p className="text-sm">List of all article categories available</p>
-      <button onClick={() => setShowModal(true)}>
+      <button onClick={handleModalOpen}>
         Add Category
       </button>
+      {/* Display a validation or conflict error on the main page */}
+      {actionError && 
+        <ul>
+          {actionError.map((err, index) => (
+            <li key={index} className="flex text-sm text-red-400">
+              {err.field && <p>{err.field.charAt(0).toUpperCase() + err.field.slice(1)}:</p>}
+              {err.message && <span className="ml-1">{err.message}</span>}
+              {!err.field && !err.message && <p>{err}</p>}
+            </li>
+          ))}
+        </ul> 
+      }
       {/* Display modal for category form */}
       {showModal && createPortal(
         <div className="fixed top-0 w-screen h-screen flex items-center justify-center bg-gray-500/50">
@@ -84,7 +102,7 @@ export default function Categories() {
                 onChange={(e) => setCategoryValue(e.target.value)}
                 required
               />
-              {/* Display a validation or conflict error */}
+              {/* Display a validation or conflict error inside modal */}
               {actionError && 
                 <ul>
                   {actionError.map((err, index) => (
