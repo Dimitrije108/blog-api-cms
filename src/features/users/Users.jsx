@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useLoaderData, Form, useActionData } from "react-router-dom";
+import { useLoaderData, Form, useActionData, useRevalidator } from "react-router-dom";
+import api from "../../axiosConfig";
 import ErrorMessage from "../../components/ErrorMessage";
 
 // TODO:
 // - Display only non-admin users, grey out admins maybe?
-// - Delete user functionality
 // - Clicking on user shows all their articles?
 // - Clicking on user shows all their comments?
 // - Add user search functionality: by username/email?
@@ -26,7 +26,8 @@ export default function Users() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [author, setAuthor] = useState(false);
 	const [actionError, setActionError] = useState(null);
-
+	const [deleteError, setDeleteError] = useState(null);
+	const revalidator = useRevalidator();
 	const action = useActionData();
 
 	useEffect(() => {
@@ -82,6 +83,21 @@ export default function Users() {
 		setActionError(null);
 	};
 
+	// Delete user and refresh users loader
+  const handleDelete = async (userId) => {
+    // Confirm popup to delete a user
+    const confirm = window.confirm("Are you sure you want to delete this user?");
+
+    if (confirm) {
+      try {
+        await api.delete(`/users/${userId}`);
+        revalidator.revalidate();
+      } catch(error) {
+        setDeleteError(error);
+      };
+    };
+  };
+
 	return (
 		<>
 			<h1>Users</h1>
@@ -101,6 +117,7 @@ export default function Users() {
 					))}
 				</ul> 
 			}
+			{deleteError && <ErrorMessage error={deleteError} />}
 			{/* Display modal for create user form */}
       {showModal && createPortal(
         <div className="fixed top-0 w-screen h-screen flex items-center justify-center bg-gray-500/50">
@@ -248,14 +265,9 @@ export default function Users() {
 								<button onClick={() => handleEditModalOpen(user)}>
 									Edit
 								</button>
-								{/* Handle user deletion via Form action */}
-								<Form method="delete">
-									<input type="hidden" name="action" value="delete" />
-									<input type="hidden" name="id" value={user.id} />
-									<button type="submit">
-										Delete
-									</button>
-								</Form>
+								<button onClick={() => handleDelete(user.id)}>
+									Delete
+								</button>
 							</li>
 						)
 					})}
