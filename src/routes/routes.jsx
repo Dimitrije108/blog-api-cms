@@ -2,7 +2,7 @@ import ProtectedRoute from "../layouts/ProtectedRoute";
 import Layout from "../layouts/Layout";
 import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../pages/Dashboard";
-import Users from "../pages/Users";
+
 import Comments from "../pages/Comments";
 import Login from "../pages/Login";
 import preFetchAuth from "../utils/preFetchAuth";
@@ -24,6 +24,10 @@ import editArticleAction from "../features/articles/EditArticle/editArticleActio
 import Categories from "../features/categories/Categories";
 import categoriesLoader from "../features/categories/categoriesLoader";
 import categororiesAction from "../features/categories/categoriesAction";
+// Users feature
+import Users from "../features/users/Users";
+import usersLoader from "../features/users/usersLoader";
+import usersAction from "../features/users/usersAction";
 
 // ProtectedRoute component is for loading UI
 // authLoader stops loaders from executing if auth fails
@@ -74,6 +78,8 @@ const routes = [
 					{
 						path: "users",
 						Component: Users,
+						loader: preFetchAuth(usersLoader),
+						action: preFetchAuth(usersAction),
 					},
 					{
 						path: "comments",
