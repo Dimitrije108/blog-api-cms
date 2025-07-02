@@ -4,6 +4,7 @@ import { useLoaderData, Form, useActionData, useRevalidator } from "react-router
 import api from "../../axiosConfig";
 import ErrorMessage from "../../components/ErrorMessage";
 import User from "./components/User";
+import EditUserModal from "./components/EditUserModal";
 
 // TODO:
 // - Display only non-admin users, grey out admins maybe?
@@ -52,6 +53,18 @@ export default function Users() {
 			setActionError(action.error);
 		};
 	}, [action]);
+
+	const handleUsername = (e) => {
+		setUsername(e.target.value)
+	};
+
+	const handleEmail = (e) => {
+		setEmail(e.target.value)
+	};
+
+	const handleAuthor = (e) => {
+		setAuthor(e.target.checked)
+	};
 
 	const handleModalOpen = () => {
 		setShowModal(true);
@@ -192,64 +205,19 @@ export default function Users() {
         document.body
       )}
 			{/* Display modal for edit user form */}
-			{showEditModal && createPortal(
-        <div className="fixed top-0 w-screen h-screen flex items-center justify-center bg-gray-500/50">
-          <div className="pt-6 pb-6 pl-8 pr-8 bg-amber-50 border-r-gray-300 rounded-lg shadow-xl">
-            <Form method="post" className="flex flex-col">
-							{/* Differentiate create and edit forms in action */}
-							<input type="hidden" name="action" value="edit" />
-							<input type="hidden" name="id" value={editingUser.id} />
-              <label htmlFor="username">Username*</label>
-              <input 
-                type="text" 
-                name="username" 
-                id="username" 
-                minLength={1}
-                maxLength={30}
-								value={username}
-								onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-							<label htmlFor="email">Email*</label>
-              <input 
-                type="email"
-                name="email"
-                id="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-							<label htmlFor="author" className="text-center">Author privilege</label>
-							<input 
-								type="checkbox"
-								name="author"
-								id="author"
-								checked={author}
-								onChange={(e) => setAuthor(e.target.checked)}
-							/>
-              {/* Display a validation or conflict error inside modal */}
-              {actionError && 
-                <ul>
-                  {actionError.map((err, index) => (
-                    <li key={index} className="flex text-sm text-red-400">
-                      {err.field && <p>{err.field.charAt(0).toUpperCase() + err.field.slice(1)}:</p>}
-                      {err.message && <span className="ml-1">{err.message}</span>}
-                      {!err.field && !err.message && <p>{err}</p>}
-                    </li>
-                  ))}
-                </ul> 
-              }
-              <button type="submit">
-                Edit
-              </button>
-            </Form>
-            <button onClick={handleEditModalClose}>
-              Close
-            </button>
-          </div>
-        </div>,
-        document.body
-      )}
+			{showEditModal && 
+				<EditUserModal
+					editingUser={editingUser}
+					username={username}
+					handleUsername={handleUsername}
+					email={email}
+					handleEmail={handleEmail}
+					author={author}
+					handleAuthor={handleAuthor}
+					actionError={actionError}
+					handleEditModalClose={handleEditModalClose}
+				/>
+			}
 			{/* Display error message */}
 			{error && <ErrorMessage error={error} />}
 			{/* Display all categories */}
