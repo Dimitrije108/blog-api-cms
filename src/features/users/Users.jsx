@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
-import { useLoaderData, Form, useActionData, useRevalidator } from "react-router-dom";
+import { useLoaderData, useActionData, useRevalidator } from "react-router-dom";
 import api from "../../axiosConfig";
 import ErrorMessage from "../../components/ErrorMessage";
-import User from "./components/User";
+import CreateUserModal from "./components/CreateUserModal";
 import EditUserModal from "./components/EditUserModal";
+import User from "./components/User";
 
 // TODO:
 // - Display only non-admin users, grey out admins maybe?
 // - Clicking on user shows all their articles?
 // - Clicking on user shows all their comments?
 // - Add user search functionality: by username or email?
-// - Make separate create and edit modal components
-// - Give input before and when confirm password matches the password
+// - Display UX status before and after confirm passwords matches
 
 export default function Users() {
 	const { data, error } = useLoaderData();
@@ -60,6 +59,14 @@ export default function Users() {
 
 	const handleEmail = (e) => {
 		setEmail(e.target.value)
+	};
+
+	const handlePassword = (e) => {
+		setPassword(e.target.value)
+	};
+
+	const handleConfirmPassword = (e) => {
+		setConfirmPassword(e.target.value)
 	};
 
 	const handleAuthor = (e) => {
@@ -131,79 +138,22 @@ export default function Users() {
 			}
 			{deleteError && <ErrorMessage error={deleteError} />}
 			{/* Display modal for create user form */}
-      {showModal && createPortal(
-        <div className="fixed top-0 w-screen h-screen flex items-center justify-center bg-gray-500/50">
-          <div className="pt-6 pb-6 pl-8 pr-8 bg-amber-50 border-r-gray-300 rounded-lg shadow-xl">
-            <Form method="post" className="flex flex-col">
-							{/* Differentiate create and edit forms in action */}
-							<input type="hidden" name="action" value="create" />
-              <label htmlFor="username">Username*</label>
-              <input 
-                type="text" 
-                name="username" 
-                id="username" 
-                minLength={1}
-                maxLength={30}
-								value={username}
-								onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-							<label htmlFor="email">Email*</label>
-              <input 
-                type="email" 
-                name="email" 
-                id="email" 
-                required
-              />
-							<label htmlFor="password">Password*</label>
-              <input 
-                type="password" 
-                name="password" 
-                id="password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-							<label htmlFor="confirmPass">Confirm password*</label>
-              <input 
-                type="password" 
-                name="confirmPass" 
-                id="confirmPass"
-								value={confirmPassword}
-								onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-							<label htmlFor="author" className="text-center">Author privilege</label>
-							<input 
-								type="checkbox"
-								name="author"
-								id="author"
-								checked={author}
-								onChange={(e) => setAuthor(e.target.checked)}
-							/>
-              {/* Display a validation or conflict error inside modal */}
-              {actionError && 
-                <ul>
-                  {actionError.map((err, index) => (
-                    <li key={index} className="flex text-sm text-red-400">
-                      {err.field && <p>{err.field.charAt(0).toUpperCase() + err.field.slice(1)}:</p>}
-                      {err.message && <span className="ml-1">{err.message}</span>}
-                      {!err.field && !err.message && <p>{err}</p>}
-                    </li>
-                  ))}
-                </ul> 
-              }
-              <button type="submit">
-                Create
-              </button>
-            </Form>
-            <button onClick={handleModalClose}>
-              Close
-            </button>
-          </div>
-        </div>,
-        document.body
-      )}
+      {showModal && 
+				<CreateUserModal
+					username={username}
+					handleUsername={handleUsername}
+					email={email}
+					handleEmail={handleEmail}
+					password={password}
+					handlePassword={handlePassword}
+					confirmPassword={confirmPassword}
+					handleConfirmPassword={handleConfirmPassword}
+					author={author}
+					handleAuthor={handleAuthor}
+					actionError={actionError}
+					handleModalClose={handleModalClose}
+				/>
+			}
 			{/* Display modal for edit user form */}
 			{showEditModal && 
 				<EditUserModal
@@ -218,7 +168,7 @@ export default function Users() {
 					handleEditModalClose={handleEditModalClose}
 				/>
 			}
-			{/* Display error message */}
+			{/* Display loader fetch error message */}
 			{error && <ErrorMessage error={error} />}
 			{/* Display all categories */}
 			{data && 

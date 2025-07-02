@@ -4,25 +4,26 @@ import { Form } from "react-router-dom";
 // TODO:
 // - Make a reusable action error component
 
-// Modal component used to edit user info
-export default function EditUserModal({ 
-	editingUser,
+export default function CreateUserModal({ 
 	username,
 	handleUsername,
 	email,
 	handleEmail,
+	password,
+	handlePassword,
+	confirmPassword,
+	handleConfirmPassword,
 	author,
 	handleAuthor,
 	actionError,
-	handleEditModalClose,
+	handleModalClose,
 }) {
 	return createPortal(
 		<div className="fixed top-0 w-screen h-screen flex items-center justify-center bg-gray-500/50">
 			<div className="pt-6 pb-6 pl-8 pr-8 bg-amber-50 border-r-gray-300 rounded-lg shadow-xl">
 				<Form method="post" className="flex flex-col">
-					{/* To differentiate create and edit forms inside action */}
-					<input type="hidden" name="action" value="edit" />
-					<input type="hidden" name="id" value={editingUser.id} />
+					{/* Differentiate create and edit forms in action */}
+					<input type="hidden" name="action" value="create" />
 					<label htmlFor="username">Username*</label>
 					<input 
 						type="text" 
@@ -36,11 +37,29 @@ export default function EditUserModal({
 					/>
 					<label htmlFor="email">Email*</label>
 					<input 
-						type="email"
-						name="email"
-						id="email"
+						type="email" 
+						name="email" 
+						id="email" 
 						value={email}
 						onChange={handleEmail}
+						required
+					/>
+					<label htmlFor="password">Password*</label>
+					<input 
+						type="password" 
+						name="password" 
+						id="password"
+						value={password}
+						onChange={handlePassword}
+						required
+					/>
+					<label htmlFor="confirmPass">Confirm password*</label>
+					<input 
+						type="password" 
+						name="confirmPass" 
+						id="confirmPass"
+						value={confirmPassword}
+						onChange={handleConfirmPassword}
 						required
 					/>
 					<label htmlFor="author" className="text-center">Author privilege</label>
@@ -64,10 +83,10 @@ export default function EditUserModal({
 						</ul> 
 					}
 					<button type="submit">
-						Edit
+						Create
 					</button>
 				</Form>
-				<button onClick={handleEditModalClose}>
+				<button onClick={handleModalClose}>
 					Close
 				</button>
 			</div>
