@@ -7,11 +7,10 @@ import EditUserModal from "./components/EditUserModal";
 import User from "./components/User";
 
 // TODO:
-// - Display only non-admin users, grey out admins maybe?
-// - Clicking on user shows all their articles?
-// - Clicking on user shows all their comments?
-// - Add user search functionality: by username or email?
+// - Clicking on user shows all their articles
+// - Clicking on user shows all their comments
 // - Display UX status before and after confirm passwords matches
+// - Add user search functionality: by username or email
 
 export default function Users() {
 	const { data, error } = useLoaderData();
@@ -176,6 +175,7 @@ export default function Users() {
 					{data.map((user) => {
 						return (
 							<User 
+								key={user.id}
 								user={user}
 								handleEditModalOpen={handleEditModalOpen}
 								handleDelete={handleDelete}
