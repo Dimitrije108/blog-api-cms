@@ -11,6 +11,7 @@ import User from "./components/User";
 // - Clicking on user shows all their comments
 // - Display UX status before and after confirm passwords matches
 // - Add user search functionality: by username or email
+// - Add styling
 
 export default function Users() {
 	const { data, error } = useLoaderData();
