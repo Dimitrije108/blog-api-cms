@@ -1,12 +1,12 @@
+import preFetchAuth from "../utils/preFetchAuth";
+import { checkUserLoader } from "../loaders/loaders";
+
 import ProtectedRoute from "../layouts/ProtectedRoute";
 import Layout from "../layouts/Layout";
 import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../pages/Dashboard";
-
-import Comments from "../pages/Comments";
 import Login from "../pages/Login";
-import preFetchAuth from "../utils/preFetchAuth";
-import { checkUserLoader } from "../loaders/loaders";
+
 // Article list feature
 import ArticleList from "../features/articles/ArticleList/ArticleList";
 import articleListLoader from "../features/articles/ArticleList/articleListLoader";
@@ -28,6 +28,9 @@ import categororiesAction from "../features/categories/categoriesAction";
 import Users from "../features/users/Users";
 import usersLoader from "../features/users/usersLoader";
 import usersAction from "../features/users/usersAction";
+// Comments feature
+import Comments from "../features/comments/Comments";
+import commentsLoader from "../features/comments/commentsLoader";
 
 // ProtectedRoute component is for loading UI
 // authLoader stops loaders from executing if auth fails
@@ -84,6 +87,7 @@ const routes = [
 					{
 						path: "comments",
 						Component: Comments,
+						loader: preFetchAuth(commentsLoader),
 					},
 				]
 			},
