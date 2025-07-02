@@ -3,14 +3,13 @@ import { createPortal } from "react-dom";
 import { useLoaderData, Form, useActionData, useRevalidator } from "react-router-dom";
 import api from "../../axiosConfig";
 import ErrorMessage from "../../components/ErrorMessage";
+import User from "./components/User";
 
 // TODO:
 // - Display only non-admin users, grey out admins maybe?
 // - Clicking on user shows all their articles?
 // - Clicking on user shows all their comments?
-// - Add user search functionality: by username/email?
-// - If user is admin don't display delete/edit button
-// - Make a separate User component
+// - Add user search functionality: by username or email?
 // - Make separate create and edit modal components
 // - Give input before and when confirm password matches the password
 
@@ -258,17 +257,11 @@ export default function Users() {
 				<ul>
 					{data.map((user) => {
 						return (
-							<li key={user.id}>
-								<div>{user.username}</div>
-								<div>{user.email}</div>
-								<div>{user.author ? "Author": ""}</div>
-								<button onClick={() => handleEditModalOpen(user)}>
-									Edit
-								</button>
-								<button onClick={() => handleDelete(user.id)}>
-									Delete
-								</button>
-							</li>
+							<User 
+								user={user}
+								handleEditModalOpen={handleEditModalOpen}
+								handleDelete={handleDelete}
+							/>
 						)
 					})}
 				</ul>
