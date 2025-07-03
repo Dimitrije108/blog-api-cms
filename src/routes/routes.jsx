@@ -1,12 +1,15 @@
+// Auth checks
 import preFetchAuth from "../utils/preFetchAuth";
 import { checkUserLoader } from "../loaders/loaders";
 
 import ProtectedRoute from "../layouts/ProtectedRoute";
 import Layout from "../layouts/Layout";
 import ErrorPage from "../pages/ErrorPage";
-import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 
+// Dashboard feature
+import Dashboard from "../features/dashboard/Dashboard";
+import dashboardLoader from "../features/dashboard/dashboardLoader";
 // Article list feature
 import ArticleList from "../features/articles/ArticleList/ArticleList";
 import articleListLoader from "../features/articles/ArticleList/articleListLoader";
@@ -49,6 +52,7 @@ const routes = [
 					{
 						index: true,
 						Component: Dashboard,
+						loader: preFetchAuth(dashboardLoader),
 					},
 					{
 						path: "articles", 
