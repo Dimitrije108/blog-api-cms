@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -8,22 +7,10 @@ import ErrorMessage from "../../components/ErrorMessage";
 
 export default function Dashboard() {
   const { data, error } = useLoaderData();
-  const [published, setPublished] = useState(null);
-  const [unpublished, setUnpublished] = useState(null);
   const { user } = useAuth();
   const navigate = useNavigate();
 
   console.log(data);
-
-  // Filter published/unpublished articles upon data availability
-  useEffect(() => {
-    if (data) {
-      const published = data.articles.filter((article) => article.published);
-      setPublished(published);
-      const unpublished = data.articles.filter((article) => !article.published);
-      setUnpublished(unpublished);
-    }
-  }, [data]);
 
   return (
     <>
@@ -36,30 +23,22 @@ export default function Dashboard() {
           <section>
             <h3>Articles</h3>
             <p>Article count</p>
-            <div>{data.articles.length}</div>
-            {published && 
-              <div>
-                <p>Published</p>
-                <div>{published.length}</div>
-              </div>
-            }
-            {unpublished && 
-              <div>
-                <p>Unpublished</p>
-                <div>{unpublished.length}</div>
-              </div>
-            }
+            <div>{data.articleCount}</div>
+            <div>
+              <p>Published</p>
+              <div>{data.publishedCount}</div>
+            </div>
+            <div>
+              <p>Unpublished</p>
+              <div>{data.unpublishedCount}</div>
+            </div>
             <div>
               <h4>Latest</h4>
-              {published &&
-                <>
-                  <h4>{published && published[0].title}</h4>
-                  <div>{published && published[0].createdAt}</div>
-                  <button onClick={() => navigate(`articles/${published[0].id}`)}>
-                    View
-                  </button>
-                </>
-              }
+              <h4>{data.latestArticle.title}</h4>
+              <div>{data.latestArticle.createdAt}</div>
+              <button onClick={() => navigate(`articles/${data.latestArticle.id}`)}>
+                View
+              </button>
             </div>
             <div>
               <button onClick={() => navigate("/articles")}>
@@ -104,12 +83,12 @@ export default function Dashboard() {
           {/* Comments section */}
           <section>
             <h3>Comments</h3>
-            <div>{data.comments.length}</div>
+            <div>{data.commentCount}</div>
             <div>
               <h4>Latest</h4>
-              <div>{data.comments[0].user.username}:</div>
-              <p>{data.comments[0].comment}</p>
-              <div>{data.comments[0].createdAt}</div>
+              <div>{data.latestComment.user.username}:</div>
+              <p>{data.latestComment.comment}</p>
+              <div>{data.latestComment.createdAt}</div>
             </div>
             <button onClick={() => navigate("/comments")}>
               View comments
