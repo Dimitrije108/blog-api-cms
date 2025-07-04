@@ -6,7 +6,6 @@ import ErrorMessage from "../../components/ErrorMessage";
 // TODO:
 // - Display info in a dashboard view
 // - Create some statistics:
-//   - Most used categories?
 //   - Recent comments?
 //   - Create a graph with number of articles, users, comments?
 
@@ -66,19 +65,29 @@ export default function Dashboard() {
             </div>
             <div>
               <button onClick={() => navigate("articles/create")}>
-                Create Article
+                Create article
               </button>
               <button onClick={() => navigate("/articles")}>
-                View All Articles
+                View articles
               </button>
             </div>
           </section>
           {/* categories section */}
           <section>
-            {/* category count */}
+            <h2>Categories</h2>
+            <div>Category count</div>
+            <div>{data.categories.length}</div>
+            <div>Most used</div>
+            <div>{data.topCategory.name}</div>
             {/* most used category */}
-            {/* create new category button */}
-            {/* visit categories page button */}
+            <div>
+              <button onClick={() => navigate("/categories")}>
+                Create category
+              </button>
+              <button onClick={() => navigate("/categories")}>
+                View categories
+              </button>
+            </div>
           </section>
           {/* users section */}
           <section>
