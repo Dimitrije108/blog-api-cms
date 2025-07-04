@@ -4,10 +4,7 @@ import { useAuth } from "../../context/AuthProvider";
 import ErrorMessage from "../../components/ErrorMessage";
 
 // TODO:
-// - Display info in a dashboard view
-// - Create some statistics:
-//   - Recent comments?
-//   - Create a graph with number of articles, users, comments?
+// - Create a graph with number of articles, users, comments?
 
 export default function Dashboard() {
   const { data, error } = useLoaderData();
@@ -31,28 +28,29 @@ export default function Dashboard() {
   return (
     <>
       <h1>Greetings {user.username}!</h1>
+      <h2>Summary</h2>
       {error && <ErrorMessage error={error} />}
       {data && 
         <>
-          {/* article section */}
+          {/* Articles section */}
           <section>
-            <h2>Articles</h2>
-            <div>Article count</div>
+            <h3>Articles</h3>
+            <p>Article count</p>
             <div>{data.articles.length}</div>
             {published && 
               <div>
-                <div>Published</div>
+                <p>Published</p>
                 <div>{published.length}</div>
               </div>
             }
             {unpublished && 
               <div>
-                <div>Unpublished</div>
+                <p>Unpublished</p>
                 <div>{unpublished.length}</div>
               </div>
             }
             <div>
-              <h3>Latest</h3>
+              <h4>Latest</h4>
               {published &&
                 <>
                   <h4>{published && published[0].title}</h4>
@@ -64,43 +62,58 @@ export default function Dashboard() {
               }
             </div>
             <div>
-              <button onClick={() => navigate("articles/create")}>
-                Create article
-              </button>
               <button onClick={() => navigate("/articles")}>
                 View articles
               </button>
+              <button onClick={() => navigate("articles/create")}>
+                Create article
+              </button>
             </div>
           </section>
-          {/* categories section */}
+          {/* Categories section */}
           <section>
-            <h2>Categories</h2>
-            <div>Category count</div>
+            <h3>Categories</h3>
+            <p>Category count</p>
             <div>{data.categories.length}</div>
-            <div>Most used</div>
+            <p>Most used</p>
             <div>{data.topCategory.name}</div>
-            {/* most used category */}
             <div>
-              <button onClick={() => navigate("/categories")}>
-                Create category
-              </button>
               <button onClick={() => navigate("/categories")}>
                 View categories
               </button>
+              <button onClick={() => navigate("/categories")}>
+                Create category
+              </button>
             </div>
           </section>
-          {/* users section */}
+          {/* Users section */}
           <section>
-            {/* user count */}
-            {/* author user count */}
-            {/* visit users page button */}
+            <h3>Users</h3>
+            <div>{data.users.length}</div>
+            <p>Authors</p>
+            <div>{data.authors.length}</div>
+            <div>
+              <button onClick={() => navigate("/users")}>
+                View users
+              </button>
+              <button onClick={() => navigate("/users")}>
+                Create user
+              </button>
+            </div>
           </section>
-          {/* comments section */}
+          {/* Comments section */}
           <section>
-            {/* comment count */}
-            {/* latest comment */}
-            {/* show createdAt time */}
-            {/* visit comments page button */}
+            <h3>Comments</h3>
+            <div>{data.comments.length}</div>
+            <div>
+              <h4>Latest</h4>
+              <div>{data.comments[0].user.username}:</div>
+              <p>{data.comments[0].comment}</p>
+              <div>{data.comments[0].createdAt}</div>
+            </div>
+            <button onClick={() => navigate("/comments")}>
+              View comments
+            </button>
           </section>
         </>}
     </>
