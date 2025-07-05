@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
+import Spinner from '../components/Spinner';
 
 // Checks user auth so that page isn't displayed to non authenticated users
 export default function ProtectedRoute() {
@@ -18,7 +19,7 @@ export default function ProtectedRoute() {
 	
 	// Authentication in progress
 	if (isAuth === null) {
-		return <div>Loading...</div>;
+		return <Spinner />
 	};
 	// Load children if authenticated
 	if (isAuth) {
