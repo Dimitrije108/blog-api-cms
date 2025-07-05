@@ -1,17 +1,14 @@
-import { useLoaderData, useLocation, useNavigate, useRevalidator } from "react-router-dom";
+import { useLoaderData, useLocation, useRevalidator } from "react-router-dom";
 import { useState } from "react";
-import ErrorMessage from "../../../components/ErrorMessage";
 import api from "../../../axiosConfig";
-import formatDate from "../../../utils/formatDate";
+import ErrorMessage from "../../../components/ErrorMessage";
+import ArticleListItem from "../components/ArticleListItem";
 
 // TODO:
-// - Make a reusable Article component
-// - Turn delete article into a form like it is in other component?
 // - Clicking on author displays user page with all of their articles listed
 // - Add svg icons for view, edit
-// - Add toggle buton for publish
 // - Make the publish error UX friendly - shows up under the card
-// - Create a custom delete confirmation modal
+// - Make the all/publish/unpublish be a backend filter
 // - For preserving filter status when going back URL query string would be needed
 // and a custom backend query implementation would be needed
 
@@ -21,7 +18,6 @@ export default function ArticleList() {
   const [publishError, setPublishError] = useState(null);
   const [deleteError, setDeleteError] = useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
   const revalidator = useRevalidator();
   const isPublished = location.pathname.includes('/published');
   // Filter articles based on current filter state - all, published, unpublished
@@ -74,25 +70,12 @@ export default function ArticleList() {
       {publishError && <ErrorMessage error={publishError} />}
       {deleteError && <ErrorMessage error={deleteError} />}
       {filteredArticles && filteredArticles.map((article) => (
-        <article key={article.id}>
-          <h2>{article.title}</h2>
-          <p>Category: {article.category.name}</p>
-          <p>Written by: {article.user.username}</p>
-          <p>{article.published ? "Published" : "Unpublished"}</p>
-          <p>Created: {formatDate(article.createdAt)}</p>
-          <button onClick={() => navigate(`/articles/${article.id}`)}>
-            View
-          </button>
-          <button onClick={() => navigate(`/articles/${article.id}/edit`)}>
-            Edit
-          </button>
-          <button onClick={() => handlePublish(article.id, article.published)}>
-            Publish/Unpublish
-          </button>
-          <button onClick={() => handleDelete(article.id)}>
-            Delete
-          </button>
-        </article>
+        <ArticleListItem
+          key={article.id}
+          article={article}
+          handlePublish={handlePublish}
+          handleDelete={handleDelete}
+        />
       ))}
     </>
   )
