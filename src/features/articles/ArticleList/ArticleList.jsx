@@ -2,9 +2,12 @@ import { useLoaderData, useLocation, useNavigate, useRevalidator } from "react-r
 import { useState } from "react";
 import ErrorMessage from "../../../components/ErrorMessage";
 import api from "../../../axiosConfig";
+import formatDate from "../../../utils/formatDate";
 
 // TODO:
 // - Make a reusable Article component
+// - Turn delete article into a form like it is in other component?
+// - Clicking on author displays user page with all of their articles listed
 // - Add svg icons for view, edit
 // - Add toggle buton for publish
 // - Make the publish error UX friendly - shows up under the card
@@ -76,7 +79,7 @@ export default function ArticleList() {
           <p>Category: {article.category.name}</p>
           <p>Written by: {article.user.username}</p>
           <p>{article.published ? "Published" : "Unpublished"}</p>
-          <p>Created: {article.createdAt}</p>
+          <p>Created: {formatDate(article.createdAt)}</p>
           <button onClick={() => navigate(`/articles/${article.id}`)}>
             View
           </button>

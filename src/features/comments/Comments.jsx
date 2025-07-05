@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLoaderData, useRevalidator } from "react-router-dom";
 import api from "../../axiosConfig";
 import ErrorMessage from "../../components/ErrorMessage";
+import formatDate from "../../utils/formatDate";
 
 // TODO:
 // - Search by user
@@ -42,7 +43,7 @@ export default function Comments() {
                   <div>{comment.user.username}</div>
                   {comment.user.author && <div>Author</div>}
                   <div>{comment.comment}</div>
-                  <div>{comment.createdAt}</div>
+                  <div>{formatDate(comment.createdAt)}</div>
                   <div>Article: {comment.article.title}</div>
                   <button onClick={() => handleDelete(comment.id)}>
                     Delete

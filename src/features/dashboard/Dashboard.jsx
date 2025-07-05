@@ -1,6 +1,7 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 import ErrorMessage from "../../components/ErrorMessage";
+import formatDate from "../../utils/formatDate";
 
 // TODO:
 // - Create a graph with number of articles, users, comments?
@@ -35,7 +36,7 @@ export default function Dashboard() {
             <div>
               <h4>Latest</h4>
               <h4>{data.latestArticle.title}</h4>
-              <div>{data.latestArticle.createdAt}</div>
+              <div>{formatDate(data.latestArticle.createdAt)}</div>
               <button onClick={() => navigate(`articles/${data.latestArticle.id}`)}>
                 View
               </button>
@@ -88,7 +89,7 @@ export default function Dashboard() {
               <h4>Latest</h4>
               <div>{data.latestComment.user.username}:</div>
               <p>{data.latestComment.comment}</p>
-              <div>{data.latestComment.createdAt}</div>
+              <div>{formatDate(data.latestComment.createdAt)}</div>
             </div>
             <button onClick={() => navigate("/comments")}>
               View comments
