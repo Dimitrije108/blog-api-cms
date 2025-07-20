@@ -24,7 +24,7 @@ export default function Login() {
   };
 
   return (
-    <>
+    <div className="w-screen h-screen flex flex-col justify-center items-center">
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
         <div>
@@ -58,6 +58,6 @@ export default function Login() {
         }
         <button type="submit">Login</button>
       </form>
-    </>
+    </div>
   )
 };
