@@ -23,6 +23,19 @@ export default function Login() {
     };
   };
 
+  const handleGuestLogin = async (e) => {
+    const userLogin = await login("guest@example.com", "Guest123");
+    setEmail("");
+    setPassword("");
+
+    if (!userLogin.success) {
+      setError(userLogin.error);
+    } else {
+      setError(null);
+      navigate("/");
+    };
+  };
+
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">
       <h1>Login</h1>
@@ -58,6 +71,7 @@ export default function Login() {
         }
         <button type="submit">Login</button>
       </form>
+      <button onClick={handleGuestLogin}>Guest login</button>
     </div>
   )
 };
